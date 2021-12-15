@@ -7,10 +7,6 @@ function turnObjToArray(collection) {
     }
 }
 
-// const callback = (parameter) => {
-//     console.log(parameter)
-// }
-
 function myEach(collection, callback) {
     const array = turnObjToArray(collection)
     for (const item of array) {
@@ -24,15 +20,17 @@ function myMap(collection, cbFunction) {
     return newArray
 }
 
-// const cbFunction = (acc, value) => {
-//     return acc + value
-// }
-
 
 function myReduce(collection, cbFunction, initVal) {
-    const array = turnObjToArray(collection)
-    let total = array.reduce(cbFunction, initVal)
-    return total
+    let array = turnObjToArray(collection)
+    if (!initVal) {
+        initVal = array[0]
+        array = array.slice(1)
+    }
+    for (let i = 0; i < array.length; i++) {
+        initVal = cbFunction(initVal, array[i], array) 
+    }
+    return initVal
 }
 
 function myFind(collection, predicate) {
@@ -40,10 +38,9 @@ function myFind(collection, predicate) {
     return foundItem
 }
 
-function MyFilter(collection, predicate) {
-    let array = []
-    array.push(turnObjToArray(collection).filter(predicate))
-    return array
+function myFilter(collection, predicate) {
+    const newArray = turnObjToArray(collection)
+    return newArray.filter(predicate)
 }
 
 function mySize(collection) {
@@ -65,5 +62,13 @@ function myLast(array, n=1) {
         return copyArray[0]
     }
     return copyArray
+}
+
+function myKeys(object) {
+    return Object.keys(object)
+}
+
+function myValues (object) {
+    return Object.values(object)
 }
 
